@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     if @user.save
       flash[:notice] = "Sign Up Successful!"
-
+      redirect_to new_session_path
     else
       render action: :new
     end

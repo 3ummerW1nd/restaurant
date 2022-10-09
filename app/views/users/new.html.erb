@@ -12,6 +12,12 @@
 
 <%= form_for @user, url: :users do |f| %>
   <p>
+    <%= f.radio_button('owner', true)%>
+    I'm a restaurant owner
+    <%= f.radio_button('owner', false)%>
+    I'm a normal user
+  </p>
+  <p>
     <%= f.label :name %>
     <%= f.text_field :name %>
   </p>
