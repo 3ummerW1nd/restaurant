@@ -1,1 +1,62 @@
-<h1>aa</h1>
+<!-- app/views/applicants/new.html.erb -->
+
+<h1>Sign Up</h1>
+
+<% if @user.errors.any? %>
+  <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_for @user, url: :users do |f| %>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </p>
+
+  <p>
+    password confirmation
+    <%= f.password_field :password_confirmation %>
+  </p>
+
+  <p>
+    <%= f.label :phone %>
+    <%= f.text_field :phone %>
+  </p>
+
+  <p>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </p>
+
+  <p>
+    <%= f.label :gender %>
+    <%= f.radio_button('gender', true)%>
+    man
+    <%= f.radio_button('gender', false)%>
+    woman
+  </p>
+
+  <p>
+    <%= f.label :birthday %>
+    <%= f.date_select :birthday, :start_year => 1922, :end_year => 2022 %>
+  </p>
+
+  <p><%= f.button "提交" %></p>
+  <% if flash.any? %>
+    <% flash.each do |message_type,message| %>
+      <div class="alert alert-<%= message_type %>" >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+

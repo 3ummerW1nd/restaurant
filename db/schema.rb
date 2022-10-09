@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_07_072248) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_09_133357) do
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "restaurant_id"
     t.integer "user_id"
@@ -38,12 +38,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_072248) do
     t.date "birthday"
     t.boolean "gender"
     t.string "name"
-    t.string "password"
     t.string "image"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
   create_table "replies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -69,12 +69,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_07_072248) do
     t.date "birthday"
     t.boolean "gender"
     t.string "name"
-    t.string "password"
     t.string "image"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.boolean "owner"
   end
 
 end

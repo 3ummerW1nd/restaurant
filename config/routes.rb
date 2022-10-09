@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources :users
+  post 'sessions/create'
+  post 'users/create'
 end

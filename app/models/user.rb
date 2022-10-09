@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :comments
   has_many :replies
+  has_many :restaurants
   validates :name,
             :presence => {:message => 'Name can\'t be null!'}
   validates :phone,

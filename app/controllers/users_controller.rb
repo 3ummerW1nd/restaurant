@@ -4,9 +4,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    params.require(:user).permit(:name, :password, :phone)
-    password_digits = BCrypt::Password.create(:password)
-    @user = User.new()
+    @user = User.create(user_params)
+    if @user.save
+      flash[:notice] = "Sign Up Successful!"
+
+    else
+      render action: :new
+    end
   end
 
+  private
+  def user_params
+    params.require(:user).permit(:name, :password, :password_confirmation, :phone, :email, :gender, :birthday, :owner)
+  end
 end
