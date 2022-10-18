@@ -5,12 +5,15 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    if @user.save
-      flash[:notice] = "Sign Up Successful!"
-      redirect_to new_session_path
-    else
-      render action: :new
-    end
+    recaptcha_valid = verify_recaptcha(model: @user, action: 'registration', minimum_score: 0.1)
+    # if recaptcha_valid
+      if @user.save
+        flash[:notice] = "Sign Up Successful!"
+        redirect_to new_session_path
+      else
+        render action: :new
+      end
+    # end
   end
 
   private

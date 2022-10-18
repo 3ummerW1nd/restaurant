@@ -1,0 +1,30 @@
+//.sign {
+//  background-image: image-url('sign/sign.jpg');
+//  background-position: center 0;
+//  background-repeat: no-repeat;
+//  background-size:cover;
+//}
+.sign-in-block {
+  background-color: white;
+  padding: 50px;
+  backdrop-filter: blur(30px);
+  background-image: image-url('sign/sign_in.jpg');
+  background-position: left 0;
+  background-repeat: no-repeat;
+  background-size:50%;
+}
+
+.sign-row {
+  height: 100vh;
+}
+
+.sign-up-block {
+  background-color: white;
+  padding: 50px;
+  backdrop-filter: blur(30px);
+  backdrop-filter: blur(30px);
+  background-image: image-url('sign/sign_up.jpg');
+  background-position: left 0;
+  background-repeat: no-repeat;
+  background-size:33%;
+}

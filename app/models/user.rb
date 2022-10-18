@@ -13,4 +13,16 @@ class User < ApplicationRecord
                         :maximum => 20,
                         :message => 'The length of password should between 8 and 20'}
   has_secure_password
+
+  def generate_authentication_token
+    loop do
+      token = SecureRandom.base64(64)
+      if !$redis.get(token)
+        $redis.set(token, self.id)
+        $redis.expire(token, 2.hour.to_i)
+        return token
+      end
+    end
+  end
+
 end

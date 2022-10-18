@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="20.14.135.18" id="4dc5c4ee-e11b-4eac-b106-1833ae174e0a" keyPath="$USER_HOME$/.ssh/azure_pub_key.pem" port="22" nameFormat="DESCRIPTIVE" username="azureuser" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>

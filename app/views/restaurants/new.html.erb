@@ -1,0 +1,32 @@
+<body class="sign">
+  <% if flash[:login_error] %>
+    <p><%= flash[:login_error] %></p>
+  <% end %>
+  <div class="row align-items-center sign-row" >
+    <div class="col-md-8 offset-md-2 new-restaurant-block rounded shadow-lg">
+      <div class="col-md-5 offset-md-7">
+        <%= form_for @restaurant, :html => {:multipart => true}, url: :restaurants do |f| %>
+          <div class="form-outline mb-4">
+            <%= f.text_field :name, class: "form-control", id: "formName"%>
+            <label class="form-label" for="formName">Name</label>
+          </div>
+          <div class="form-outline mb-4">
+            <%= f.text_field :address, class: "form-control", id: "formAddress"%>
+            <label class="form-label" for="formPhone">Address</label>
+          </div>
+          <div class="form-outline mb-4">
+            <%= f.text_area :intro, class: "form-control", id: "formIntro"%>
+            <label class="form-label" for="formIntro">Introduction</label>
+          </div>
+          <div class="form-outline mb-4">
+            <%=f.file_field :image, class: "form-control", id: "customFile", accept: "image/*" %>
+            <label class="form-label" for="customFile">Photo</label>
+          </div>
+          <div class="form-outline mb-4">
+            <%= f.button "Create", class: "btn btn-primary btn-block mb-4 form-control"%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</body>

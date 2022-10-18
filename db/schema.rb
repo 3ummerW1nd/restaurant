@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_09_133357) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_123856) do
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "restaurant_id"
     t.integer "user_id"
@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_09_133357) do
     t.integer "upvote"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "owners", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -59,10 +60,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_09_133357) do
     t.string "name"
     t.string "intro"
     t.string "address"
-    t.integer "upvote"
     t.integer "owner_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
+    t.integer "upvote"
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

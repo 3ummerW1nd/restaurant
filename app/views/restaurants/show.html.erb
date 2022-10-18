@@ -1,0 +1,109 @@
+<body>
+  <div class="row" >
+    <div class="col-md-10 offset-md-1 main-block">
+      <div class="row">
+        <div class="card restaurant-show-card">
+          <div class="row">
+            <div class="bg-image hover-overlay ripple col-md-4" data-mdb-ripple-color="light">
+              <%= image_tag(@restaurant.image_url(), :size => "320x210", style: "margin-top:10px;")%>
+              <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+            </div>
+            <div class="col-md-7">
+              <div class="card-body">
+                <h3 class="card-title" style="height: 70px">
+                  <%=@restaurant.name %>
+                </h3>
+                <h5>Introduction:</h5>
+                <p class="card-text" style="height: 80px; color: #2e6ab1">
+                  <%=@restaurant.intro%>
+                </p>
+                <h5>Location:</h5>
+                <p class="card-text" style="height: 80px; color: #2e6ab1">
+                  <%=@restaurant.address%>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 offset-md-1 main-block" style="margin-bottom: 40px">
+      <h6 class="bg-light p-2 border-top border-bottom">Dishes</h6>
+      <ul class="list-group list-group-light mb-4">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                 style="width: 65px; height: 65px" />
+            <div class="ms-3">
+              <p class="fw-bold mb-1">双层吉士汉堡</p>
+              <p class="text-muted mb-0">$2.99</p>
+            </div>
+          </div>
+          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Like</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                 style="width: 65px; height: 65px" />
+            <div class="ms-3">
+              <p class="fw-bold mb-1">双层吉士汉堡</p>
+              <p class="text-muted mb-0">$2.99</p>
+            </div>
+          </div>
+          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Like</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6 main-block" style="margin-bottom: 40px">
+      <h6 class="bg-light p-2 border-top border-bottom">Comments</h6>
+      <ul class="list-group list-group-light">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                 style="width: 65px; height: 65px" />
+            <div class="ms-3">
+              <span class="fw-bold mb-1">Andy</span>
+              <span class="text-muted mb-0">消费过</span><br>
+              <p class="text-muted mb-0">消费人数：1</p>
+              <p class="text-muted mb-0">总开销：$100</p>
+              <p class="text-muted mb-0">评价：真的好吃</p>
+            </div>
+          </div>
+          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Reply</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                 style="width: 40px; height: 40px; margin-left: 25px" />
+            <div class="ms-3">
+              <span class="fw-bold mb-1">Mia</span><span class="text-muted mb-0"> reply to </span><span class="fw-bold mb-1">Andy</span>
+              <p class="text-muted mb-0">楼上说的对，真的好吃</p>
+            </div>
+          </div>
+          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Reply</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <%= form_for @comment, :html => {:multipart => true}, url: :dishes do |f| %>
+              <div class="row ms-3">
+                <div class="col-md-5">
+                  <span class="fw-bold mb-1">Name:</span>
+                  <%= f.text_field :headcount, class: "form-control"%>
+                </div>
+                <div class="col-md-5">
+                  <span class="text-muted mb-0">Price:</span>
+                  <%= f.text_field :comment, class: "form-control"%>
+                </div>
+                <div class="col-md-10" style="margin-top: 10px">
+                  <span class="text-muted mb-0">Photo:</span>
+                  <%=f.file_field :image, class: "form-control", accept: "image/*" %>
+                </div>
+              </div>
+            <%end %>
+          </div>
+          <a class="btn btn-primary btn-rounded btn-sm" href="#" role="button">Add</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>

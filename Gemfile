@@ -14,6 +14,23 @@ gem "mysql2", "~> 0.5"
 
 gem 'bcrypt', '~> 3.1.5'
 
+gem "will_paginate"
+
+gem "will_paginate-bootstrap"
+
+gem 'bootstrap'
+
+gem 'jquery-rails'
+
+gem "recaptcha"
+
+gem 'carrierwave'
+
+gem 'redis'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 

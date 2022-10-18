@@ -1,0 +1,74 @@
+<script>
+    function info(id) {
+        location.href = "/restaurants/" + id
+    }
+
+    function upvote(id) {
+        var img = document.getElementById("img_"+id);
+        var img_src = img.getAttribute("src");
+        var count = document.getElementById("count_"+id)
+        if (img_src == "/assets/restaurant/upvoted.png") {
+            img.setAttribute("src", "/assets/restaurant/upvote.png")
+            count.innerHTML = (parseInt(count.innerHTML) - 1)
+        } else {
+            img.setAttribute("src", "/assets/restaurant/upvoted.png")
+            count.innerHTML = (parseInt(count.innerHTML) + 1)
+        }
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('GET', '/restaurant/upvote/' + id, true);//第二步：打开连接  将请求参数写在url中  ps:"http://localhost:8080/rest/xxx"
+        httpRequest.send();
+    }
+
+    function delete_restaurant(id) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('DELETE', '/restaurants/' + id, true);//第二步：打开连接  将请求参数写在url中  ps:"http://localhost:8080/rest/xxx"
+        httpRequest.send();
+    }
+</script>
+
+<body>
+<div class="row" >
+  <div class="col-md-10 offset-md-1 main-block">
+    <div class="row restaurant-row">
+      <%@restaurants.each do |restaurant|  %>
+        <div class="col-md-4">
+          <div class="card restaurant-card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <%= image_tag(restaurant.image_url(), :size => "320x210") %>
+              <a href="#!">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title" style="height: 70px">
+                <%=restaurant.name %>
+              </h3>
+              <p class="card-text" style="height: 80px">
+                <% length = restaurant.intro.length%>
+                <% if length >= 100 %>
+                  <%=restaurant.intro[0..100] + '...' %>
+                <% else %>
+                  <%=restaurant.intro%>
+                <% end %>
+              </p>
+              <div class="row" style="margin-top: 15px">
+                <div class="col-md-6">
+                  <a href="<%=restaurant.id %>/edit" class="btn btn-primary col-md-10 offset-md-1">Edit</a>
+                </div>
+                <div class="col-md-6">
+                  <a class="btn btn-danger col-md-10 offset-md-1" onclick="delete_restaurant(<%=restaurant.id%>)">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="row">
+        <div class="digg_pagination col-md-4 offset-md-4">
+          <%= will_paginate @restaurants, :page_links => false, class: "center"%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
