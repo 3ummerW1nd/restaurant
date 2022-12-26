@@ -1,88 +1,92 @@
 <body class="sign">
-    <div class="row align-items-center sign-row" >
-      <div class="col-md-8 offset-md-2 sign-up-block rounded shadow-lg">
-        <%= form_for @user, url: :users do |f| %>
-          <div class="row">
-            <div class="col-md-4 offset-md-4">
-              <div class="form-outline mb-4">
-                <%= f.text_field :name, class: "form-control", id: "formName"%>
-                <label class="form-label" for="formName">Name</label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-outline mb-4">
-                <%= f.password_field :password, class: "form-control", id: "formPassword"%>
-                <label class="form-label" for="formPassword">Password</label>
-              </div>
-            </div>
+<div class="row align-items-center sign-row" >
+  <div class="col-md-8 offset-md-2 sign-up-block rounded shadow-lg">
+    <%= form_for @user, url: :users do |f| %>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="form-outline mb-4">
+            <%= f.text_field :name, class: "form-control", id: "formName"%>
+            <label class="form-label" for="formName">Name</label>
           </div>
-          <div class="row">
-            <div class="col-md-4 offset-md-4">
-              <div class="form-outline mb-4">
-                <%= f.text_field :phone, class: "form-control", id: "formPhone"%>
-                <label class="form-label" for="formPhone">Phone</label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-outline mb-4">
-                <%= f.password_field :password_confirmation, class: "form-control", id: "formPasswordConfirmation"%>
-                <label class="form-label" for="formPasswordConfirmation">Password Confirmation</label>
-              </div>
-            </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline mb-4">
+            <%= f.password_field :password, class: "form-control", id: "formPassword"%>
+            <label class="form-label" for="formPassword">Password</label>
           </div>
-          <div class="row">
-            <div class="col-md-4 offset-md-4">
-              <div class="form-outline mb-4">
-                <%= f.text_field :email, class: "form-control", id: "formEmail"%>
-                <label class="form-label" for="formEmail">Email</label>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-outline mb-4">
-                <%= f.date_field :birthday, class: "form-control", id: "formBirthday"%>
-                <label class="form-label" for="formBirthday">Birthday</label>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 offset-md-4">
-              <div class="form-outline mb-4">
-                <div class="row">
-                  <div class="col-md-6">
-                    <%=f.radio_button('owner', true)%>
-                    <label class="form-check-label">Owner</label>
-                  </div>
-                  <div class="col-md-6">
-                    <%= f.radio_button('owner', false)%>
-                    <label class="form-check-label">Customer</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-outline mb-4">
-                <div class="row">
-                  <div class="col-md-6">
-                    <%=f.radio_button('gender', true)%>
-                    <label class="form-check-label">Male</label>
-                  </div>
-                  <div class="col-md-6">
-                    <%= f.radio_button('gender', false)%>
-                    <label class="form-check-label">Female</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <%= recaptcha_v3(action: 'registration') %>
-            <div class="col-md-4 offset-md-6">
-              <div class="form-outline mb-4">
-                <%= f.button "Sign Up", class: "btn btn-primary btn-block mb-4 form-control", style: "margin-top:20px"%>
-              </div>
-            </div>
-          </div>
-        <% end %>
+        </div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="form-outline mb-4">
+            <%= f.text_field :phone, class: "form-control", id: "formPhone"%>
+            <label class="form-label" for="formPhone">Phone</label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline mb-4">
+            <%= f.password_field :password_confirmation, class: "form-control", id: "formPasswordConfirmation"%>
+            <label class="form-label" for="formPasswordConfirmation">Password Confirmation</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="form-outline mb-4">
+            <%= f.text_field :email, class: "form-control", id: "formEmail"%>
+            <label class="form-label" for="formEmail">Email</label>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline mb-4">
+            <%= f.date_field :birthday, class: "form-control", id: "formBirthday"%>
+            <label class="form-label" for="formBirthday">Birthday</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 offset-md-4">
+          <div class="form-outline mb-4">
+            <div class="row">
+              <div class="col-md-6">
+                <%=f.radio_button('owner', true)%>
+                <label class="form-check-label">Owner</label>
+              </div>
+              <div class="col-md-6">
+                <%= f.radio_button('owner', false)%>
+                <label class="form-check-label">Customer</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline mb-4">
+            <div class="row">
+              <div class="col-md-6">
+                <%=f.radio_button('gender', true)%>
+                <label class="form-check-label">Male</label>
+              </div>
+              <div class="col-md-6">
+                <%= f.radio_button('gender', false)%>
+                <label class="form-check-label">Female</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <%= recaptcha_v3(action: 'registration') %>
+        <div class="col-md-4 offset-md-4" style="margin-top: 10px">
+          <%=f.file_field :image, class: "form-control", accept: "image/*" %>
+          <span class="text-muted mb-0">Photo</span>
+        </div>
+        <div class="col-md-4">
+          <div class="form-outline mb-4">
+            <%= f.button "Sign Up", class: "btn btn-primary btn-block mb-4 form-control", style: "margin-top:10px"%>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
 </body>

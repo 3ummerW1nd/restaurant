@@ -4,11 +4,16 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root :to => "restaurants#index"
   get 'restaurant/upvote/:id' => 'restaurants#upvote', as: 'restaurant_upvote'
+  get 'dish/upvote/:id' => 'dishes#upvote', as: 'dish_upvote'
   get 'restaurants/list' => 'restaurants#list', as: 'restaurants_list'
+  post 'dish/create/:id' => 'dishes#create', as: 'dish'
+  post 'comment/create/:id' => 'comments#create', as: 'comment'
+  post 'replies/:id/:commend_id' => 'replies#create', as: 'reply'
   resources :users
   resources :sessions, only: [:new, :create]
   resources :restaurants
-  resources :dishes
   resources :comments
+  resources :dishes
+  resources :replies
   get 'sessions/logout' => 'sessions#logout'
 end

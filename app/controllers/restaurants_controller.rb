@@ -3,10 +3,14 @@ class RestaurantsController < ApplicationController
 
   def edit
     restaurant = Restaurant.find params[:id]
-    user_id = $redis.get(session[:user_token])
-    if user_id && user_id == restaurant.owner_id.to_s
-      @restaurant = restaurant
-      @dish = Dish.new
+    @dishes = Dish.where(:restaurant_id => params[:id])
+    if session[:user_token]
+      user_id = $redis.get(session[:user_token])
+      if user_id && user_id == restaurant.owner_id.to_s
+        @restaurant = restaurant
+      else
+        redirect_to restaurants_path
+      end
     else
       redirect_to restaurants_path
     end
@@ -44,12 +48,17 @@ class RestaurantsController < ApplicationController
   def show
     @restaurant = Restaurant.find params[:id]
     @comment = Comment.new
+    @reply = Reply.new
+    @comments = Comment.where(:restaurant_id => params[:id]).order("created_at desc").page(params[:comments_page] || 1).per_page(9)
+    @dishes = Dish.where(:restaurant_id => params[:id]).order("upvote desc").page(params[:dishes_page] || 1).per_page(9)
   end
 
   def update
-    @restaurant = Restaurant.create(restaurant_param)
-    if session[:user_token] && $redis.get(session[:user_token]).equal?(@restaurant.owner_id)
-      @restaurant.save
+    @restaurant = Restaurant.find params[:id]
+    if @restaurant.update(restaurant_param)
+      #flash
+    else
+      #flash
     end
   end
 

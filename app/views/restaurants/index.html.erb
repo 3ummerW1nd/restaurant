@@ -17,6 +17,7 @@
         var httpRequest = new XMLHttpRequest();
         httpRequest.open('GET', '/restaurant/upvote/' + id, true);
         httpRequest.send();
+        event.stopPropagation()
     }
 </script>
 

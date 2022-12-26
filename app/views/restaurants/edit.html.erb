@@ -1,9 +1,17 @@
+<script>
+    function delete_dish(id) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('DELETE', '/dishes/' + id, true);
+        httpRequest.send();
+        location.reload();
+    }
+</script>
 <body>
 <div class="row" >
   <div class="col-md-5 offset-md-1 main-block">
     <div class="row" style="margin-top: 20px">
       <div class="col-md-12">
-        <%= form_for @restaurant, :html => {:multipart => true}, url: :restaurants do |f| %>
+        <%= form_for @restaurant, :html => {:multipart => true}, url: :restaurant do |f| %>
           <div class="form-outline mb-4">
             <%= f.text_field :name, class: "form-control", id: "formName"%>
             <label class="form-label" for="formName">Name</label>
@@ -30,31 +38,22 @@
   <div class="col-md-5 main-block" style="margin-top: 20px;">
     <h6 class="bg-light p-2 border-top border-bottom">Dishes</h6>
     <ul class="list-group list-group-light mb-4">
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-               style="width: 65px; height: 65px" />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">双层吉士汉堡</p>
-            <p class="text-muted mb-0">$2.99</p>
+      <%@dishes.each do |dish| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <%= image_tag(dish.image_url(), :size => "65x65") %>
+            <div class="ms-3">
+              <p class="fw-bold mb-1"><%=dish.name %></p>
+              <p class="text-muted mb-0">$<%=dish.price %></p>
+            </div>
           </div>
-        </div>
-        <a class="btn btn-danger btn-rounded btn-sm" href="#" role="button">delete</a>
-      </li>
+          <a class="btn btn-danger btn-rounded btn-sm" role="button" onclick="delete_dish(<%=dish.id %>)">delete</a>
+        </li>
+      <% end %>
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-          <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-               style="width: 65px; height: 65px" />
-          <div class="ms-3">
-            <p class="fw-bold mb-1">双层吉士汉堡</p>
-            <p class="text-muted mb-0">$2.99</p>
-          </div>
-        </div>
-        <a class="btn btn-danger btn-rounded btn-sm" href="#" role="button">delete</a>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-          <%= form_for @dish, :html => {:multipart => true}, url: :dishes do |f| %>
+          <% @dish = Dish.new %>
+          <%= form_for @dish, :html => {:multipart => true}, url: :dish do |f|%>
             <div class="row ms-3">
               <div class="col-md-5">
                 <span class="fw-bold mb-1">Name:</span>
@@ -64,14 +63,17 @@
                 <span class="text-muted mb-0">Price:</span>
                 <%= f.text_field :price, class: "form-control"%>
               </div>
-              <div class="col-md-10" style="margin-top: 10px">
+              <div class="col-md-5" style="margin-top: 10px">
                 <span class="text-muted mb-0">Photo:</span>
                 <%=f.file_field :image, class: "form-control", accept: "image/*" %>
+              </div>
+              <div class="col-md-5" style="margin-top: 37px">
+                <span class="text-muted mb-0"></span>
+                <%= f.submit "Add", class: "form-control btn btn-primary btn-rounded btn-sm"%>
               </div>
             </div>
           <%end %>
         </div>
-        <a class="btn btn-primary btn-rounded btn-sm" href="#" role="button">Add</a>
       </li>
     </ul>
   </div>

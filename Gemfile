@@ -20,8 +20,6 @@ gem "will_paginate-bootstrap"
 
 gem 'bootstrap'
 
-gem 'jquery-rails'
-
 gem "recaptcha"
 
 gem 'carrierwave'

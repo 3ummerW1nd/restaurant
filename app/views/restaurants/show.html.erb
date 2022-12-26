@@ -1,3 +1,59 @@
+<script>
+    let nowReply = -1;
+    let nowButton;
+    function reply_to_comment(id, button) {
+        if (nowReply != -1) {
+            close_reply(nowReply, nowButton)
+        }
+        nowReply = id;
+        nowButton = button;
+        var comment_li = document.getElementById("comment_" + id + "_reply_input_li");
+        comment_li.classList.add("list-group-item")
+        comment_li.classList.add("d-flex")
+        comment_li.classList.add("justify-content-between")
+        comment_li.classList.add("align-items-center")
+        comment_li.style.display = 'block'
+        button.onclick = function(){
+            close_reply(id, button)
+        };
+    }
+
+    function close_reply(id, button) {
+        var comment_li = document.getElementById("comment_" + id + "_reply_input_li");
+        comment_li.classList.remove("list-group-item")
+        comment_li.classList.remove("d-flex")
+        comment_li.classList.remove("justify-content-between")
+        comment_li.classList.remove("align-items-center")
+        comment_li.style.display = 'none'
+        button.onclick = function(){
+            reply_to_comment(id, button)
+        };
+    }
+
+    function like_dish(id) {
+          var like = document.getElementById("like_"+id);
+          if (like.innerHTML.toString() == 'Like') {
+              like.innerHTML = 'Liked'
+          } else {
+              like.innerHTML = 'Like'
+          }
+          var httpRequest = new XMLHttpRequest();
+          httpRequest.open('GET', '/dish/upvote/' + id, true);
+          httpRequest.send();
+      }
+
+      function check_box_onclick(checkbox) {
+          var price = document.getElementById("price");
+          var headcount = document.getElementById("headcount");
+          if (checkbox.checked) {
+              price.style.display = 'block'
+              headcount.style.display = 'block'
+          } else {
+              price.style.display = 'none'
+              headcount.style.display = 'none'
+          }
+      }
+</script>
 <body>
   <div class="row" >
     <div class="col-md-10 offset-md-1 main-block">
@@ -30,78 +86,123 @@
     <div class="col-md-4 offset-md-1 main-block" style="margin-bottom: 40px">
       <h6 class="bg-light p-2 border-top border-bottom">Dishes</h6>
       <ul class="list-group list-group-light mb-4">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-                 style="width: 65px; height: 65px" />
-            <div class="ms-3">
-              <p class="fw-bold mb-1">双层吉士汉堡</p>
-              <p class="text-muted mb-0">$2.99</p>
+        <%@dishes.each do |dish| %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <%= image_tag(dish.image_url(), :size => "65x65") %>
+              <div class="ms-3">
+                <p class="fw-bold mb-1"><%=dish.name %></p>
+                <p class="text-muted mb-0">$<%=dish.price %></p>
+              </div>
             </div>
-          </div>
-          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Like</a>
-        </li>
+            <%user_id = $redis.get(session[:user_token])
+              redis_like_key = user_id.to_s + '_like_dish'
+              if $redis.scard(redis_like_key) && $redis.sismember(redis_like_key, dish.id)
+            %>
+              <a id="like_<%= dish.id%>" class="btn btn-image btn-rounded btn-sm" role="button" style="color: #2e6ab1" onclick="like_dish(<%=dish.id %>)">Liked</a>
+            <%else %>
+              <a id="like_<%= dish.id%>" class="btn btn-image btn-rounded btn-sm" role="button" style="color: #2e6ab1" onclick="like_dish(<%=dish.id %>)">Like</a>
+            <%end %>
+          </li>
+        <% end %>
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-                 style="width: 65px; height: 65px" />
-            <div class="ms-3">
-              <p class="fw-bold mb-1">双层吉士汉堡</p>
-              <p class="text-muted mb-0">$2.99</p>
-            </div>
+          <div class="digg_pagination col-md-12">
+            <%= will_paginate @dishes, :page_links => false, class: "center", :param_name => 'dishes_page'%>
           </div>
-          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Like</a>
         </li>
       </ul>
     </div>
     <div class="col-md-6 main-block" style="margin-bottom: 40px">
       <h6 class="bg-light p-2 border-top border-bottom">Comments</h6>
       <ul class="list-group list-group-light">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-                 style="width: 65px; height: 65px" />
-            <div class="ms-3">
-              <span class="fw-bold mb-1">Andy</span>
-              <span class="text-muted mb-0">消费过</span><br>
-              <p class="text-muted mb-0">消费人数：1</p>
-              <p class="text-muted mb-0">总开销：$100</p>
-              <p class="text-muted mb-0">评价：真的好吃</p>
+        <%@comments.each do |comment| %>
+          <li class="list-group-item d-flex justify-content-between align-items-center", id="comment_li_<%=comment.id %>", onclick="reply_to_comment(<%=comment.id %>, this)">
+            <div class="d-flex align-items-center">
+              <div class="ms-3">
+                <div class="row">
+                  <div class="col-md-4">
+                    <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                         style="width: 65px; height: 65px" />
+                  </div>
+                  <div class="col-md-8">
+                    <span class="fw-bold mb-1"><%=User.find(comment.user_id).name %></span>
+                    <% if comment.tasted %>
+                      <span class="text-muted mb-0">Already Tasted</span><br>
+                      <p class="text-muted mb-0">price: $<%= comment.price %></p>
+                      <p class="text-muted mb-0">headcount: <%= comment.headcount %></p>
+                    <%else %>
+                      <span class="text-muted mb-0">Haven't Tasted</span><br>
+                    <%end %>
+                  </div>
+                  <div class="col-md-8 offset-md-4", style="width: 200px">
+                    <p class="fw-bold mb-0" style="margin-top: 20px; width: 500px">COMMENT: <%= comment.comment %></p>
+                    <%if comment.image_url() != "/images/fallback/default.png" %>
+                      <%= image_tag(comment.image_url(), :size => "300x300", style: "margin-top: 20px;") %>
+                    <%end %>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Reply</a>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
-                 style="width: 40px; height: 40px; margin-left: 25px" />
-            <div class="ms-3">
-              <span class="fw-bold mb-1">Mia</span><span class="text-muted mb-0"> reply to </span><span class="fw-bold mb-1">Andy</span>
-              <p class="text-muted mb-0">楼上说的对，真的好吃</p>
+<!--            <a class="btn btn-image btn-rounded btn-sm" role="button" style="color: #2e6ab1" onclick="reply_to_comment(<%#=comment.id %>, this)">Reply</a>-->
+          </li>
+          <li class="" style="display: none" id = "comment_<%=comment.id %>_reply_input_li">
+            <div class="d-flex align-items-center">
+              <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle" alt=""
+                   style="width: 40px; height: 40px; margin-left: 25px" />
+              <%= form_for @reply, url: "/replies?comment_id="+comment.id.to_s + "&id=" + @restaurant.id.to_s do |f| %>
+                <div class="row ms-3">
+                  <div class="col-md-10">
+                    <span class="fw-bold mb-1">Reply:</span>
+                      <%= f.text_area :reply, class: "form-control", size: "300"%>
+                  </div>
+                  <div class="col-md-10" style="margin-top: 20px">
+                    <%= f.button "Reply", class: "btn btn-primary form-control"%>
+                  </div>
+                </div>
+              <%end %>
             </div>
-          </div>
-          <a class="btn btn-image btn-rounded btn-sm" href="#" role="button" style="color: #2e6ab1">Reply</a>
-        </li>
+          </li>
+        <% end %>
         <li class="list-group-item d-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center">
-            <%= form_for @comment, :html => {:multipart => true}, url: :dishes do |f| %>
+            <%= form_for @comment, :html => {:multipart => true}, url: :comment do |f| %>
               <div class="row ms-3">
-                <div class="col-md-5">
-                  <span class="fw-bold mb-1">Name:</span>
+                <div class="col-md-10">
+                  <h3>
+                    Leave your Comment
+                  </h3>
+                </div>
+                <div class="col-md-10">
+                  <%=f.check_box :tasted, {onclick:"check_box_onclick(this)"}, "true", "false"%>
+                  <label class="form-check-label">I've already tasted</label>
+                </div>
+                <div class="col-md-5" id="price" style="display: none">
+                  <span class="text-muted mb-0">Price:</span>
+                  <%= f.text_field :price, class: "form-control"%>
+                </div>
+                <div class="col-md-5" id="headcount" style="display: none">
+                  <span class="text-muted mb-0">Headcount:</span>
                   <%= f.text_field :headcount, class: "form-control"%>
                 </div>
-                <div class="col-md-5">
-                  <span class="text-muted mb-0">Price:</span>
-                  <%= f.text_field :comment, class: "form-control"%>
+                <div class="col-md-10">
+                  <span class="fw-bold mb-1">Comment:</span>
+                  <%= f.text_area :comment, class: "form-control"%>
                 </div>
                 <div class="col-md-10" style="margin-top: 10px">
                   <span class="text-muted mb-0">Photo:</span>
                   <%=f.file_field :image, class: "form-control", accept: "image/*" %>
                 </div>
+                <div class="col-md-10" style="margin-top: 20px">
+                  <%= f.button "Add", class: "btn btn-primary form-control"%>
+                </div>
               </div>
             <%end %>
           </div>
-          <a class="btn btn-primary btn-rounded btn-sm" href="#" role="button">Add</a>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="digg_pagination col-md-12">
+            <%= will_paginate @comments, :page_links => false, class: "center", :param_name => 'comments_page'%>
+          </div>
         </li>
       </ul>
     </div>
